@@ -21,7 +21,7 @@ impl<'a, T> ImageFloat<'a, T> {
         (self.width, self.height)
     }
 
-    pub fn buffer(&self) -> &[T] {
+    pub fn buffer(&self) -> &'a [T] {
         self.buffer
     }
 }
