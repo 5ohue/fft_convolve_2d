@@ -40,8 +40,8 @@ impl BlurKernel {
         BlurKernel { data: k.into() }
     }
 
-    pub fn to_img<'a>(&'a self) -> crate::convolve::ImageFloat<'a, f32> {
-        crate::convolve::ImageFloat::new(SIZE+1, SIZE+1, &self.data)
+    pub fn to_img<'a>(&'a self) -> crate::convolve::ImageWrapper<'a, f32> {
+        crate::convolve::ImageWrapper::new(SIZE+1, SIZE+1, &self.data)
     }
 
     pub fn get_data(&self) -> &[f32] {

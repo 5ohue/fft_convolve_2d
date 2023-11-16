@@ -2,19 +2,19 @@ use num_complex::Complex;
 
 //-----------------------------------------------------------------------------
 
-pub struct ImageFloat<'a, T> {
+pub struct ImageWrapper<'a, T> {
     width:  usize,
     height: usize,
     buffer: &'a [T]
 }
 
-impl<'a, T> ImageFloat<'a, T> {
+impl<'a, T> ImageWrapper<'a, T> {
     pub fn new(
         width:  usize,
         height: usize,
         buffer: &'a [T]
     ) -> Self {
-        ImageFloat { width, height, buffer }
+        ImageWrapper { width, height, buffer }
     }
 
     pub fn dimensions(&self) -> (usize, usize) {
@@ -26,7 +26,7 @@ impl<'a, T> ImageFloat<'a, T> {
     }
 }
 
-impl<'a, T> ImageFloat<'a, T>
+impl<'a, T> ImageWrapper<'a, T>
 where
     T: Into<Complex<f32>> + From<f32> + Copy
 {
@@ -38,12 +38,12 @@ where
     }
 
     pub fn convolve(
-        rgb: [&ImageFloat<'a, T>; 3],
+        rgb: [&ImageWrapper<'a, T>; 3],
         kernel: &Self
     ) -> [Vec<Complex<f32>>; 3] {
         let dims = rgb[0].dimensions();
         let resized_kernel_data = kernel.extend_image_with(dims.0, dims.1, 0.0.into());
-        let resized_kernel = ImageFloat::new(dims.0, dims.1, &resized_kernel_data);
+        let resized_kernel = ImageWrapper::new(dims.0, dims.1, &resized_kernel_data);
         let kern_fft = resized_kernel.fft_2d(rustfft::FftDirection::Forward);
 
         rgb.map(|img| {

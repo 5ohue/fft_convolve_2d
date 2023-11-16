@@ -22,12 +22,12 @@ fn main() {
     let (width, height) = converted.dimensions();
 
     let (r, g, b) = smoothify::convolve::split_rgb(&converted);
-    let r_img = smoothify::convolve::ImageFloat::new(width as usize, height as usize, &r);
-    let g_img = smoothify::convolve::ImageFloat::new(width as usize, height as usize, &g);
-    let b_img = smoothify::convolve::ImageFloat::new(width as usize, height as usize, &b);
+    let r_img = smoothify::convolve::ImageWrapper::new(width as usize, height as usize, &r);
+    let g_img = smoothify::convolve::ImageWrapper::new(width as usize, height as usize, &g);
+    let b_img = smoothify::convolve::ImageWrapper::new(width as usize, height as usize, &b);
 
     let [conv_r, conv_g, conv_b] =
-        smoothify::convolve::ImageFloat::convolve([&r_img, &g_img, &b_img], &kern_img);
+        smoothify::convolve::ImageWrapper::convolve([&r_img, &g_img, &b_img], &kern_img);
 
     let buf = image::ImageBuffer::from_fn(width, height, move |j, i| {
         let idx = i*width + j;
