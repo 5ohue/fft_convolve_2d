@@ -34,7 +34,7 @@ fn main() {
         let val_r = smoothify::convolve::float_to_pixel(conv_r[idx as usize].abs());
         let val_g = smoothify::convolve::float_to_pixel(conv_g[idx as usize].abs());
         let val_b = smoothify::convolve::float_to_pixel(conv_b[idx as usize].abs());
-        return image::Rgb::from([val_r, val_g, val_b]);
+        image::Rgb::from([val_r, val_g, val_b])
     });
 
     buf.save(output_image_path)

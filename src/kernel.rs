@@ -35,17 +35,23 @@ impl BlurKernel {
         k[SIZE*(SIZE+1)/2 + SIZE/2] += 1.0 / (1 << (SIGMA-1)) as f32;
         acc += 1.0 / (1 << SIGMA) as f32;
 
-        k.iter_mut().for_each(|val| { *val = *val/acc; });
+        k.iter_mut().for_each(|val| { *val /= acc; });
 
         BlurKernel { data: k.into() }
     }
 
-    pub fn to_img<'a>(&'a self) -> crate::convolve::ImageWrapper<'a, f32> {
+    pub fn to_img(&self) -> crate::convolve::ImageWrapper<'_, f32> {
         crate::convolve::ImageWrapper::new(SIZE+1, SIZE+1, &self.data)
     }
 
     pub fn get_data(&self) -> &[f32] {
         &self.data
+    }
+}
+
+impl Default for BlurKernel {
+    fn default() -> Self {
+        Self::new()
     }
 }
 

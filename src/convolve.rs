@@ -144,19 +144,12 @@ where
         let mid = data.len() / 2;
         if data.len()%2 == 0 {
             for (i1, i2) in (0..mid).zip(mid..data.len()) {
-                let tmp  = data[i1];
-                data[i1] = data[i2];
-                data[i2] = tmp;
+                data.swap(i1, i2);
             }
         } else {
             for (i1, i2) in (0..mid).zip(mid..data.len()) {
-                let tmp  = data[i1];
-                data[i1] = data[i2];
-                data[i2] = tmp;
-
-                let tmp  = data[i1];
-                data[i1] = data[i2+1];
-                data[i2+1] = tmp;
+                data.swap(i1, i2);
+                data.swap(i1, i2+1);
             }
         }
     }
@@ -200,7 +193,7 @@ where
 pub fn float_to_pixel(f: f32) -> u16 {
     if f >= 1.0 { return 65535; }
     if f <= 0.0 { return 0;     }
-    return (f*65535.0) as u16;
+    (f*65535.0) as u16
 }
 
 //-----------------------------------------------------------------------------
